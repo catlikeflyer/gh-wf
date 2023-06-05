@@ -1,0 +1,13 @@
+**/.env
+**/.env.*
+**/node_modules
+**/bower_components
+**/jspm_packages
+**/tmp
+**/temp
+**/vendor
+**/dist
+**/build
+**/bin
+
+**/DS_Store
