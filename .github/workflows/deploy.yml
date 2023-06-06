@@ -2,9 +2,15 @@ name: Application workflow
 
 on:
   push:
-    branches: [main]
+    branches:
+      - "*" # matches every branch that doesn't contain a '/'
+      - "*/*" # matches every branch containing a single '/'
+      - "**" # matches every branch
   pull_request:
-    branches: [main]
+    branches:
+      - "*" # matches every branch that doesn't contain a '/'
+      - "*/*" # matches every branch containing a single '/'
+      - "**" # matches every branch
 
 jobs:
   build:
@@ -17,7 +23,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.10"  # Replace with the desired Python version
+          python-version: "3.10" # Replace with the desired Python version
 
       - name: Install dependencies
         run: |
@@ -41,7 +47,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.10"  # Replace with the desired Python version
+          python-version: "3.10" # Replace with the desired Python version
 
       - name: Install dependencies
         run: |
@@ -78,7 +84,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1  # Replace with your desired AWS region
+          aws-region: us-east-1 # Replace with your desired AWS region
 
       - name: Configure Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -86,14 +92,14 @@ jobs:
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
         with:
-          registry: public.ecr.aws/s2p2n5l7/ghwf  # Replace with your ECR registry URL
+          registry: public.ecr.aws/s2p2n5l7/ghwf # Replace with your ECR registry URL
 
       - name: Build and tag Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           push: false
-          tags: public.ecr.aws/s2p2n5l7/ghwf:latest  # Replace with your ECR registry URL and desired image tag
+          tags: public.ecr.aws/s2p2n5l7/ghwf:latest # Replace with your ECR registry URL and desired image tag
 
       - name: Save Docker image artifact
         uses: actions/upload-artifact@v2
@@ -114,7 +120,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1  # Replace with your desired AWS region
+          aws-region: us-east-1 # Replace with your desired AWS region
 
       - name: Configure Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -127,7 +133,7 @@ jobs:
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
         with:
-          registry: public.ecr.aws/s2p2n5l7/ghwf  # Replace with your ECR registry URL
+          registry: public.ecr.aws/s2p2n5l7/ghwf # Replace with your ECR registry URL
 
       - name: Deploy image to AWS Lambda
         run: |
@@ -144,7 +150,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1  # Replace with your desired AWS region
+          aws-region: us-east-1 # Replace with your desired AWS region
 
       - name: Create or update Lambda function
         run: |
@@ -161,7 +167,7 @@ jobs:
           function_name=my-lambda-function  # Replace with your Lambda function name
           function_arn=$(aws lambda get-function --function-name $function_name --query 'Configuration.FunctionArn' --output text)
           echo "::set-output name=lambda_url::https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions/${function_arn##*/}/versions/latest"
-  
+
       - name: Print Lambda function URL
         run: |
           echo "Lambda function URL: ${{ steps.get_lambda_url.outputs.lambda_url }}"
