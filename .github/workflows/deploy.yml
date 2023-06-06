@@ -61,7 +61,7 @@ jobs:
       #Pytest
       - name: Test with pytest
         run: |
-            RUN_ENV=dev 
+            RUN_ENV=.env
             coverage run -m pytest python3/test/
             coverage report
             coverage html -d cc_report/
