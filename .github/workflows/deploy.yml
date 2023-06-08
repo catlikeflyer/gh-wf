@@ -146,19 +146,21 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Build and push Docker image
+      - name: Upload Lambda Image
+        run: |
+          # Configure AWS credentials
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region us-east-1
       
-        run: |
-          docker build -t $ECR_REPOSITORY .
-          docker tag $ECR_REPOSITORY:latest $ECR_REPOSITORY:$GITHUB_SHA
-          docker push $ECR_REPOSITORY:$GITHUB_SHA
-
-      - name: Update Lambda function
-        run: |
-          aws lambda update-function-code \
-            --function-name $LAMBDA_FUNCTION_NAME \
-            --image-uri $ECR_REPOSITORY:$GITHUB_SHA
+          # Get the ECR repository URI
+          ECR_REPOSITORY_URI=$(aws ecr describe-repositories --repository-names ghwf --query "repositories[0].repositoryUri" --output text)
+      
+          # Create the Lambda function
+          FUNCTION_NAME="MyFunction"
+          LAMBDA_ROLE_ARN="arn:aws:iam::251215625240:role/lambda-test"
+          aws lambda create-function \
+            --function-name $FUNCTION_NAME \
+            --role $LAMBDA_ROLE_ARN \
+            --package-type Image \
+            --code ImageUri=$ECR_REPOSITORY_URI:latest
