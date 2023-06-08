@@ -133,6 +133,7 @@ jobs:
   # Understand what happens here
   deploy:
     runs-on: ubuntu-latest
+    needs: dockerize
 
     steps:
       - name: Checkout code
