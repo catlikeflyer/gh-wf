@@ -160,4 +160,4 @@ jobs:
             --function-name $FUNCTION_NAME \
             --role $LAMBDA_ROLE_ARN \
             --package-type Image \
-            --code ImageUri=${{env.ECR_REPOSITORY}}:latest
+            --code ImageUri=public.ecr.aws/s2p2n5l7/ghwf:latest
