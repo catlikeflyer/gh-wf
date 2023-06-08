@@ -5,7 +5,7 @@ Resources:
   MyLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./app.zip
+      CodeUri: ./
       Handler: app.lambda_handler
       Runtime: python3.10
       Timeout: 30
