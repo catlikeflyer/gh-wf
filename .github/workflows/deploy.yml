@@ -60,16 +60,20 @@ jobs:
           pytest
 
   package:
+    name: Package
     runs-on: ubuntu-latest
     needs: pytest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Package source code
+      - name: Install Dependencies
         run: |
-          zip -r lambda_package.zip .
+          pip install -r python3/requirements.txt
+
+      - name: Package
+        run: zip app.zip python3/app.py
 
   dockerize:
     runs-on: ubuntu-latest
