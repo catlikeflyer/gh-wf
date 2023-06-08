@@ -97,7 +97,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
         with:
-          registry: public
+          registry-type: public
 
       - name: Build and tag image
         uses: docker/build-push-action@v4
