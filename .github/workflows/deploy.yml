@@ -130,16 +130,8 @@ jobs:
     needs: dockerize
 
     steps:
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Read artifact
-        uses: actions/download-artifact@v3
-        env:
-          IMAGE_TAG: latest
-        with:
-          name: ${{ env.IMAGE_TAG }}
-          path: /tmp
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -148,18 +140,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          registry-type: public
-
-      - name: Deploy image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: s2p2n5l7/ghwf
-          IMAGE_TAG: latest
-        run: |
-          docker load --input /tmp/$IMAGE_TAG.tar
-          docker image ls -a
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Deploy to AWS Lambda
+        run: aws cloudformation deploy --template-file template.yaml --stack-name my-lambda-stack --capabilities CAPABILITY_IAM
