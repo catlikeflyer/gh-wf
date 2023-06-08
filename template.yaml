@@ -6,7 +6,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       PackageType: Image
-      ImageUri: s2p2n5l7/ghwf:latest
+      ImageUri: public.ecr.aws/s2p2n5l7/ghwf:latest
       Timeout: 30
       MemorySize: 256
       Environment:
