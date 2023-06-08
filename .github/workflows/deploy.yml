@@ -141,4 +141,4 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy to AWS Lambda
-        run: aws cloudformation deploy --template-file template.yaml --stack-name my-lambda-stack --capabilities CAPABILITY_IAM
+        run: aws cloudformation deploy --template-file template.yaml --stack-name stack-test --capabilities CAPABILITY_IAM
