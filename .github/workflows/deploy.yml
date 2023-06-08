@@ -93,7 +93,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
         with:
-          registry: public.ecr.aws/s2p2n5l7/ghwf # Replace with your ECR registry URL
+          registry: public
 
       - name: Build and tag image
         uses: docker/build-push-action@v4
