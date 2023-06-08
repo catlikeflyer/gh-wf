@@ -13,7 +13,7 @@ on:
       - "**" # matches every branch
 
 env:
-  AWS_REGION: us-east-1 
+  AWS_REGION: us-east-1
   AWS_ACCOUNT_ID: 251215625240
   ECR_REPOSITORY: public.ecr.aws/s2p2n5l7/ghwf
   LAMBDA_FUNCTION_NAME: my-function
@@ -160,4 +160,4 @@ jobs:
             --function-name $FUNCTION_NAME \
             --role $LAMBDA_ROLE_ARN \
             --package-type Image \
-            --code ImageUri=$ECR_REPOSITORY:latest
+            --code ImageUri=${{env.ECR_REPOSITORY}}:latest
