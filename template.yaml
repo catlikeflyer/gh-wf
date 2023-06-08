@@ -5,17 +5,14 @@ Resources:
   MyLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./
-      Handler: app.lambda_handler
-      Runtime: python3.10
+      PackageType: Image
+      ImageUri: s2p2n5l7/ghwf:latest
       Timeout: 30
       MemorySize: 256
       Environment:
         Variables:
           MY_ENV_VAR: my-value
-      Policies:
-        - AWSLambdaBasicExecutionRole
 
 Outputs:
   MyLambdaFunctionArn:
-    Value: !GetAtt MyLambdaFunction.Arn
+    Value: !Ref MyLambdaFunction
