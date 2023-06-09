@@ -164,6 +164,6 @@ jobs:
           IMAGE_TAG1: A01025276
           IMAGE_TAG2: latest
         run: |
-          docker load --input /tmp/$IMAGE_TAG1_$IMAGE_TAG2.tar
+          docker load --input /tmp/${{env.IMAGE_TAG1}}_${{env.IMAGE_TAG2}}.tar
           docker image ls -a
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG1:$IMAGE_TAG2
+          docker push ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}:${{env.IMAGE_TAG2}}
