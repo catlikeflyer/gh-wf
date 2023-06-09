@@ -125,7 +125,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: image
-          path: /tmp/${{ env.IMAGE_TAG_1 }}_${{ env.IMAGE_TAG_2 }}.tar
+          path: .
     
   deploy:
     runs-on: ubuntu-latest
@@ -164,6 +164,6 @@ jobs:
           IMAGE_TAG_1: A01025276
           IMAGE_TAG_2: latest
         run: |
-          docker load --input /tmp/${{env.IMAGE_TAG_1}}_${{env.IMAGE_TAG_2}}.tar
+          docker load --input /tmp/$IMAGE_TAG_1_$IMAGE_TAG_2.tar
           docker image ls -a
-          docker push ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}:${{env.IMAGE_TAG_1}}:${{env.IMAGE_TAG_2}}
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_1:$IMAGE_TAG_2
