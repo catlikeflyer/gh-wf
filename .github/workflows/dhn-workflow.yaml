@@ -128,7 +128,7 @@ jobs:
         uses: docker/build-push-action@v4
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: d0z3f1c0/501ecr
+          ECR_REPOSITORY: s2p2n5l7/examen-test
           IMAGE_TAG_1: A01025276
           IMAGE_TAG_2: latest
         with:
@@ -187,7 +187,7 @@ jobs:
       - name: Deploy image 1
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: d0z3f1c0/501ecr
+          ECR_REPOSITORY: s2p2n5l7/examen-test
           IMAGE_TAG1: A01025276
           IMAGE_TAG2: latest
         run: |
